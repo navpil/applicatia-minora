@@ -1,8 +1,4 @@
-package ua.csia.dmp;
-
-import static ua.csia.dmp.Interval.QUART;
-import static ua.csia.dmp.Interval.QUINT;
-import static ua.csia.dmp.Interval.TER;
+package ua.lviv.navpil.chords;
 
 public class Octave {
     private final Note DO ;

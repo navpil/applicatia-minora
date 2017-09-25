@@ -1,4 +1,6 @@
-package ua.csia.dmp;
+package ua.lviv.navpil.chords;
+
+import ua.lviv.navpil.Rational;
 
 import java.util.ArrayList;
 import java.util.Arrays;

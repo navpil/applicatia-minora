@@ -1,4 +1,4 @@
-package ua.csia.dmp;
+package ua.lviv.navpil;
 
 public class Rational {
     private int nominator;

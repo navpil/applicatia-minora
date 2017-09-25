@@ -1,4 +1,4 @@
-package ua.csia.dmp.dice;
+package ua.lviv.navpil.dice;
 
 public class NumberStat implements Comparable<NumberStat> {
     private final int number;

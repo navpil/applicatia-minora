@@ -1,4 +1,4 @@
-package ua.csia.dmp.algs;
+package ua.lviv.navpil.algs;
 
 import java.util.Random;
 

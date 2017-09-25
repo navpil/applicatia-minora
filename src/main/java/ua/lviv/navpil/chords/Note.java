@@ -1,9 +1,9 @@
-package ua.csia.dmp;
+package ua.lviv.navpil.chords;
+
+import ua.lviv.navpil.Rational;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static ua.csia.dmp.Interval.*;
 
 public class Note {
 
@@ -55,39 +55,39 @@ public class Note {
 
     private static void reFailure() {
         Note DO = new Note();
-        Note RE = DO.down(QUART).up(QUINT);
+        Note RE = DO.down(Interval.QUART).up(Interval.QUINT);
 //        Note FA = DO.up(QUART);
-        Note LA = DO.up(TER).down(QUINT);
+        Note LA = DO.up(Interval.TER).down(Interval.QUINT);
 
-        Note RE_1 = LA.up(QUART);
+        Note RE_1 = LA.up(Interval.QUART);
         System.out.println("Which Re is correct?: " + RE + ", " + RE_1);
 
-        System.out.println("This is normal RE quint: " + LA.up(OCTAVE).rational().divide(RE.rational()));
+        System.out.println("This is normal RE quint: " + LA.up(Interval.OCTAVE).rational().divide(RE.rational()));
     }
 
     private static void initialInvestigation() {
         Note DO = new Note();
-        Note MI = DO.up(TER);
-        Note SOL = DO.up(QUINT);
+        Note MI = DO.up(Interval.TER);
+        Note SOL = DO.up(Interval.QUINT);
 
-        Note FA = DO.up(QUART);
-        Note LA = MI.up(QUART);
-        Note RE = SOL.down(QUART);
-        Note TI = MI.up(QUINT);
+        Note FA = DO.up(Interval.QUART);
+        Note LA = MI.up(Interval.QUART);
+        Note RE = SOL.down(Interval.QUART);
+        Note TI = MI.up(Interval.QUINT);
         Octave normal = new Octave(DO, RE, MI, FA, SOL, LA, TI);
         System.out.println(normal);
 
-        Chord all = new Chord(DO, RE, MI, FA, SOL, LA, TI, DO.up(OCTAVE));
+        Chord all = new Chord(DO, RE, MI, FA, SOL, LA, TI, DO.up(Interval.OCTAVE));
         System.out.println("All intervals: " + all.intervals());
 
 
         Chord doMajor = new Chord(DO, MI, SOL);
         Chord reMinor = new Chord(RE, FA, LA);
         Chord miMinor = new Chord(MI, SOL, TI);
-        Chord faMajor = new Chord(FA, LA, DO.up(OCTAVE));
-        Chord solMajor = new Chord(SOL, TI, RE.up(OCTAVE));
-        Chord laMinor = new Chord(LA, DO.up(OCTAVE), MI.up(OCTAVE));
-        Chord tiMin = new Chord(TI, RE.up(OCTAVE), FA.up(OCTAVE));
+        Chord faMajor = new Chord(FA, LA, DO.up(Interval.OCTAVE));
+        Chord solMajor = new Chord(SOL, TI, RE.up(Interval.OCTAVE));
+        Chord laMinor = new Chord(LA, DO.up(Interval.OCTAVE), MI.up(Interval.OCTAVE));
+        Chord tiMin = new Chord(TI, RE.up(Interval.OCTAVE), FA.up(Interval.OCTAVE));
         List<Chord> chords = new ArrayList<Chord>();
         chords.add(doMajor  );
         chords.add(reMinor  );
@@ -105,7 +105,7 @@ public class Note {
         System.out.println(doMajor.intervals());
 
         System.out.println(solMajor);
-        System.out.println(new Chord(SOL, SOL.up(TER), SOL.up(QUINT)));
+        System.out.println(new Chord(SOL, SOL.up(Interval.TER), SOL.up(Interval.QUINT)));
     }
 
     private static final Rational half = new Rational(1, 2);

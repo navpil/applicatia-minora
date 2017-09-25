@@ -1,4 +1,4 @@
-package ua.csia.dmp.dice;
+package ua.lviv.navpil.dice;
 
 public class Face {
     private final int value;
