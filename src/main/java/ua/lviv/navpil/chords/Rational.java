@@ -1,4 +1,4 @@
-package ua.lviv.navpil;
+package ua.lviv.navpil.chords;
 
 public class Rational {
     private int nominator;
