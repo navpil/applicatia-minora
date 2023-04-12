@@ -1,16 +1,10 @@
 package ua.lviv.navpil.chords;
 
+import java.util.Objects;
+
 public class Rational {
     private int nominator;
     private int denominator;
-
-    public static void main(String [] args) {
-        Rational half = new Rational(3, 6);
-        System.out.println(half);
-        Rational threeFourt = new Rational(3, 4);
-        System.out.println(half.multiply(threeFourt));
-        System.out.println(half.gt(threeFourt));
-    }
 
     public Rational(int nom, int denom) {
         this.nominator = nom;
@@ -53,6 +47,19 @@ public class Rational {
             return a;
         return cdn(b, a % b);
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rational rational = (Rational) o;
+        return nominator == rational.nominator && denominator == rational.denominator;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nominator, denominator);
     }
 
     @Override

@@ -2,13 +2,6 @@ package ua.lviv.navpil.dice;
 
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Admin
- * Date: 06.03.15
- * Time: 19:16
- * To change this template use File | Settings | File Templates.
- */
 public class DieHelper {
 
     public static void main2(String [] args) {

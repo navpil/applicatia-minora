@@ -1,13 +1,13 @@
 package ua.lviv.navpil.chords;
 
 public class Octave {
-    private final Note DO ;
-    private final Note RE ;
-    private final Note MI ;
-    private final Note FA ;
+    private final Note DO;
+    private final Note RE;
+    private final Note MI;
+    private final Note FA;
     private final Note SOL;
-    private final Note LA ;
-    private final Note TI ;
+    private final Note LA;
+    private final Note TI;
 
     public Octave(Note DO, Note RE, Note MI, Note FA, Note SOL, Note LA, Note TI) {
         this.DO = DO;
@@ -23,9 +23,10 @@ public class Octave {
     public String toString() {
         return "DO: " + DO +
                 " RE: " + RE
-        +" MI: " + MI
-        +" FA: " + FA
-        +" SOL: " + SOL
-        +" LA: " + LA
-        +" TI: " + TI;}
+                + " MI: " + MI
+                + " FA: " + FA
+                + " SOL: " + SOL
+                + " LA: " + LA
+                + " TI: " + TI;
+    }
 }
