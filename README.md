@@ -4,6 +4,19 @@ This is a "Work" project where I solved various minor tasks without any intentio
 
 Usually the code which does not deserve a separate repo is added here
 
+## jpanelcalc
+
+Once I wrote my own Layout for swing applications.
+The `jpanelcalc` package shows the underlying calculation for that layout.
+
+The problem with `GridBagLayout` in Swing was that it was not versatile enough.
+In particular it was not possible to set maximum/minimum width and ratio for every panel involved.
+
+So I wrote my own. 
+While the layout is not present in this code, but the calculation is here.
+
+I don't remember if I extended the GridBagLayout, or I copied its code and changed where necessary.
+
 ## Quine
 
 Prints out itself.
