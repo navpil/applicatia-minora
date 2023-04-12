@@ -40,3 +40,13 @@ Is it possible to simulate it with 6D dice?
 What about "three coins pattern"?
 
 The "coin patterns" are used in ancient games, such as Bul or Game of Ur.
+
+## Ldap To Sql
+
+LDAP is a NoSQL database which stores data in tree format and is optimized for reading.
+
+Unfortunately documentation on LDAP protocol is often very limited and hard to find.
+Once I understood that LDAP queries are like SQL queries, I decided to write a simple parser
+which would translate LDAP queries to something SQL-lover would understand.
+
+NB: this is a pseudo SQL and no LDAP server will understand this request.
