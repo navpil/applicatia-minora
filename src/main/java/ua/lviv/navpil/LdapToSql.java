@@ -1,7 +1,5 @@
 package ua.lviv.navpil;
 
-import java.util.Arrays;
-
 public class LdapToSql {
 
     public String ldapToSql(String ldapQuery) {

@@ -14,7 +14,16 @@ import java.util.Set;
 public class BurnTreesSimulation implements Game {
 
     public static void main(String[] args) {
-        RunSimulation.startSimulation(new BurnTreesSimulation(20, 20), "Burn Trees");
+        RunSimulation.startSimulation(
+                new BurnTreesSimulation(30, 20),
+                "Burn Trees"
+        );
+    }
+
+    public static class Configuration {
+        public static boolean addLakes = true;
+        public static int lakePercentage = 15;
+        public static int howManySurroundingPoints = 4;
     }
 
     private final Random random = new Random();
@@ -32,7 +41,9 @@ public class BurnTreesSimulation implements Game {
         for (int i = 0; i < trees.length; i++) {
             trees[i] = new int[ysize];
         }
-        putLakes(150);
+        if (Configuration.addLakes) {
+            putLakes((int)Math.round(xsize * ysize * 1.0 * Configuration.lakePercentage / 100));
+        }
         for (int i = 0; i < 50; i++) {
             plantTree(random.nextInt(this.xsize), random.nextInt(this.ysize));
         }
@@ -113,6 +124,11 @@ public class BurnTreesSimulation implements Game {
                 trees[point1.x][point1.y] = GamePanel.BLACK;
             }
         } else {
+            if (trees[x][y] != GamePanel.BLUE) {
+                trees[x][y] = GamePanel.YELLOW;
+
+            }
+
             callback.run();
         }
 
@@ -124,7 +140,8 @@ public class BurnTreesSimulation implements Game {
     }
 
     private int getNewTreesCount() {
-        return (int)Math.max(1, Math.round(treeCounter * 0.01));
+        return 10;
+//        return (int)Math.max(1, Math.round(treeCounter * 0.01));
     }
 
     @Override
@@ -151,6 +168,8 @@ public class BurnTreesSimulation implements Game {
 
         public Set<Point> adjacent() {
             HashSet<Point> adjacent = new HashSet<>();
+
+            //Orghogonal points
             if (x > 0) {
                 adjacent.add(new Point(x - 1, y));
             }
@@ -163,6 +182,30 @@ public class BurnTreesSimulation implements Game {
             if (y < ysize - 1) {
                 adjacent.add(new Point(x, y + 1));
             }
+
+            //Hexagonal
+            if (Configuration.howManySurroundingPoints > 4) {
+                if (x > 0 && y > 0) {
+                    adjacent.add(new Point(x - 1, y - 1));
+                }
+                if (x < xsize - 1 && y > 0) {
+                    adjacent.add(new Point(x + 1, y - 1));
+                }
+
+
+            }
+
+            //Octogonal
+            if (Configuration.howManySurroundingPoints > 6) {
+                if (x < xsize - 1 && y < ysize - 1) {
+                    adjacent.add(new Point(x + 1, y + 1));
+                }
+                if (x > 0 && y < ysize - 1) {
+                    adjacent.add(new Point(x - 1, y + 1));
+                }
+            }
+
+
             return adjacent;
         }
 
