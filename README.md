@@ -4,6 +4,14 @@ This is a "Work" project where I solved various minor tasks without any intentio
 
 Usually the code which does not deserve a separate repo is added here
 
+## Simulations
+
+`sim` package contains simulations, such as simulating a forest fire or a sand avalanche.
+Use Swing for visualization.
+
+ - AvalancheSimulation
+ - BurnTreesSimulation
+
 ## jpanelcalc
 
 Once I wrote my own Layout for swing applications.
