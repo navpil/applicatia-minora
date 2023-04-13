@@ -12,6 +12,10 @@ Use Swing for visualization.
  - AvalancheSimulation
  - BurnTreesSimulation
 
+## Anti Gambler Fallacy
+
+How the system would behave if an occurence of event increases a probability it happens next time?
+
 ## jpanelcalc
 
 Once I wrote my own Layout for swing applications.
