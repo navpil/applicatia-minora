@@ -1,10 +1,14 @@
 package ua.lviv.navpil.sim;
 
+import ua.lviv.navpil.sim.points.Field;
+import ua.lviv.navpil.sim.points.SimpleColorField;
+
 import java.util.Random;
 
 public class LangtonsAntSimulation implements Game {
 
     private final Type type;
+    private final SimpleColorField simpleColorField;
 
     enum Type {
         /**
@@ -41,6 +45,7 @@ public class LangtonsAntSimulation implements Game {
         antY = ysize / 2;//random.nextInt(ysize);
         color = sandbox[antX][antY];
         sandbox[antX][antY] = GamePanel.RED;
+        simpleColorField = new SimpleColorField(sandbox);
         direction = Direction.values()[random.nextInt(4)];
         this.type = type;
     }
@@ -110,8 +115,8 @@ public class LangtonsAntSimulation implements Game {
     }
 
     @Override
-    public int[][] getBoxes() {
-        return sandbox;
+    public Field getBoxes() {
+        return simpleColorField;
     }
 
     enum Direction {

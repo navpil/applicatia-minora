@@ -1,11 +1,12 @@
 package ua.lviv.navpil.sim;
 
 import ua.lviv.navpil.sim.points.Configuration;
+import ua.lviv.navpil.sim.points.Field;
+import ua.lviv.navpil.sim.points.LegacyColorsField;
 import ua.lviv.navpil.sim.points.Point;
 import ua.lviv.navpil.sim.points.PointUtil;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -15,10 +16,12 @@ import java.util.Set;
  */
 public class AvalancheSimulation implements Game {
 
+    private final LegacyColorsField field;
+
     public static void main(String[] args) {
         boolean useLegacyColors = true;
         RunSimulation.startSimulation(new AvalancheSimulation(20, 20),
-                "Avalanche simulation", useLegacyColors);
+                "Avalanche simulation");
     }
 
     private final Random random = new Random();
@@ -44,6 +47,8 @@ public class AvalancheSimulation implements Game {
                 }
             }
         }
+
+        field = new LegacyColorsField(sandbox);
     }
 
     private void dropSand(int x, int y) {
@@ -97,8 +102,8 @@ public class AvalancheSimulation implements Game {
     }
 
     @Override
-    public int[][] getBoxes() {
-        return sandbox;
+    public Field getBoxes() {
+        return field;
     }
 
 }

@@ -1,8 +1,10 @@
 package ua.lviv.navpil.sim;
 
 import ua.lviv.navpil.sim.points.Configuration;
+import ua.lviv.navpil.sim.points.Field;
 import ua.lviv.navpil.sim.points.Point;
 import ua.lviv.navpil.sim.points.PointUtil;
+import ua.lviv.navpil.sim.points.SimpleColorField;
 
 import java.util.Random;
 import java.util.Set;
@@ -10,6 +12,8 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class GameOfLifeSimulation implements Game {
+
+    private final SimpleColorField field;
 
     public static void main(String[] args) {
         RunSimulation.startSimulation(new GameOfLifeSimulation(200, 100),
@@ -32,6 +36,7 @@ public class GameOfLifeSimulation implements Game {
                 sandbox[p.x()][p.y()] = GamePanel.BLACK;
             }
         });
+        field = new SimpleColorField(sandbox);
     }
 
     private int[][] createSandbox() {
@@ -71,6 +76,7 @@ public class GameOfLifeSimulation implements Game {
         });
 
         sandbox = newBox;
+        field.changeBoxes(sandbox);
 
     }
 
@@ -91,8 +97,8 @@ public class GameOfLifeSimulation implements Game {
     }
 
     @Override
-    public int[][] getBoxes() {
-        return sandbox;
+    public Field getBoxes() {
+        return field;
     }
 
 }

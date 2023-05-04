@@ -1,5 +1,7 @@
 package ua.lviv.navpil.sim;
 
+import ua.lviv.navpil.sim.points.Field;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
@@ -19,48 +21,24 @@ public class GamePanel extends JPanel {
 
     public static final int RED = 0xff0000;
 
-    public static final java.util.List<Color> LEGACY_COLORS = Collections.unmodifiableList(
-            Arrays.asList(Color.WHITE, Color.YELLOW, Color.RED, Color.BLUE, Color.BLACK)
-    );
-
-    private final Map<Integer, Color> cache = new HashMap<>();
-
     private final Game game;
     private final int step;
-    private final boolean useLegacyColors;
-
-    public GamePanel(Game game, int step, boolean useLegacyColors) {
+    public GamePanel(Game game, int step) {
         this.game = game;
         this.step = step;
-        this.useLegacyColors = useLegacyColors;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int[][] boxes = game.getBoxes();
-        for (int i = 0; i < boxes.length; i++) {
-            for (int j = 0; j < boxes[i].length; j++) {
-                g.setColor(selectColor(boxes[i][j]));
+        Field boxes = game.getBoxes();
+        for (int i = 0; i < boxes.width(); i++) {
+            for (int j = 0; j < boxes.height(); j++) {
+                g.setColor(boxes.at(i, j));
                 g.fillOval(step + (i * step), step + (j * step), step, step);
 //                g.fillRect(step + (i * step), step + (j * step), step, step);
             }
         }
-    }
-
-    private Color selectColor(int box) {
-        if (useLegacyColors) {
-            return box < LEGACY_COLORS.size() ? LEGACY_COLORS.get(box) : Color.BLACK;
-        }
-        if (box == WHITE) {
-            return Color.WHITE;
-        } else if (box == BLACK) {
-            return Color.BLACK;
-        }
-        if (!cache.containsKey(box)) {
-            cache.put(box, new Color(box));
-        }
-        return cache.get(box);
     }
 
 }

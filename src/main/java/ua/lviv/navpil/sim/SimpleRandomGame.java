@@ -1,5 +1,8 @@
 package ua.lviv.navpil.sim;
 
+import ua.lviv.navpil.sim.points.Field;
+import ua.lviv.navpil.sim.points.LegacyColorsField;
+
 import java.util.Random;
 
 /**
@@ -8,9 +11,11 @@ import java.util.Random;
  */
 public class SimpleRandomGame implements Game {
 
+    private final LegacyColorsField field;
+
     public static void main(String[] args) {
         RunSimulation.startSimulation(new SimpleRandomGame(20, 20),
-                "Simple random game", true);
+                "Simple random game");
     }
     private final int xmax;
 
@@ -26,11 +31,12 @@ public class SimpleRandomGame implements Game {
         for (int i = 0; i < boxes.length; i++) {
             boxes[i] = new int[ymax];
         }
+        field = new LegacyColorsField(boxes);
     }
 
     @Override
-    public int[][] getBoxes() {
-        return boxes;
+    public Field getBoxes() {
+        return field;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package ua.lviv.navpil.sim;
 
 import ua.lviv.navpil.sim.points.Configuration;
+import ua.lviv.navpil.sim.points.Field;
 import ua.lviv.navpil.sim.points.Point;
 import ua.lviv.navpil.sim.points.PointUtil;
+import ua.lviv.navpil.sim.points.SimpleColorField;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -18,6 +20,7 @@ public class BurnTreesSimulation implements Game {
 
     public static boolean ADD_LAKES = true;
     public static int LAKE_PERCENTAGE = 15;
+    private final SimpleColorField field;
 
     public static void main(String[] args) {
         RunSimulation.startSimulation(
@@ -49,6 +52,8 @@ public class BurnTreesSimulation implements Game {
         for (int i = 0; i < 50; i++) {
             plantTree(random.nextInt(this.xsize), random.nextInt(this.ysize));
         }
+
+        field = new SimpleColorField(trees);
     }
 
     private void putLakes(int amount) {
@@ -151,8 +156,8 @@ public class BurnTreesSimulation implements Game {
     }
 
     @Override
-    public int[][] getBoxes() {
-        return trees;
+    public Field getBoxes() {
+        return field;
     }
 
 }
