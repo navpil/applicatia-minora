@@ -1,7 +1,10 @@
 package ua.lviv.navpil.sim;
 
+import ua.lviv.navpil.sim.points.Configuration;
+import ua.lviv.navpil.sim.points.Point;
+import ua.lviv.navpil.sim.points.PointUtil;
+
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -13,6 +16,9 @@ import java.util.Set;
  */
 public class BurnTreesSimulation implements Game {
 
+    public static boolean ADD_LAKES = true;
+    public static int LAKE_PERCENTAGE = 15;
+
     public static void main(String[] args) {
         RunSimulation.startSimulation(
                 new BurnTreesSimulation(30, 20),
@@ -20,11 +26,7 @@ public class BurnTreesSimulation implements Game {
         );
     }
 
-    public static class Configuration {
-        public static boolean addLakes = true;
-        public static int lakePercentage = 15;
-        public static int howManySurroundingPoints = 4;
-    }
+    private final Configuration configuration = new Configuration(4, true);
 
     private final Random random = new Random();
     private final int[][] trees;
@@ -41,8 +43,8 @@ public class BurnTreesSimulation implements Game {
         for (int i = 0; i < trees.length; i++) {
             trees[i] = new int[ysize];
         }
-        if (Configuration.addLakes) {
-            putLakes((int)Math.round(xsize * ysize * 1.0 * Configuration.lakePercentage / 100));
+        if (ADD_LAKES) {
+            putLakes((int)Math.round(xsize * ysize * 1.0 * LAKE_PERCENTAGE / 100));
         }
         for (int i = 0; i < 50; i++) {
             plantTree(random.nextInt(this.xsize), random.nextInt(this.ysize));
@@ -63,9 +65,9 @@ public class BurnTreesSimulation implements Game {
         if (size == 0) {
             return 0;
         }
-        trees[p.x][p.y] = GamePanel.BLUE;
+        trees[p.x()][p.y()] = GamePanel.BLUE;
         size--;
-        Set<Point> adjacent = p.adjacent();
+        Set<Point> adjacent = getAdjacent(p);
         for (Point point : adjacent) {
             if (random.nextBoolean()) {
                 size = putLakeAt(point, size);
@@ -106,22 +108,22 @@ public class BurnTreesSimulation implements Game {
             Point point = new Point(x, y);
             HashSet<Point> allBurned = new HashSet<>();
             allBurned.add(point);
-            Set<Point> adjacent = point.adjacent();
+            Set<Point> adjacent = getAdjacent(point);
             while (!adjacent.isEmpty()) {
                 HashSet<Point> temp = new HashSet<>(adjacent);
                 adjacent.clear();
                 for (Point p : temp) {
-                    if (trees[p.x][p.y] == GamePanel.GREEN) {
+                    if (trees[p.x()][p.y()] == GamePanel.GREEN) {
                         allBurned.add(p);
-                        trees[p.x][p.y] = GamePanel.RED;
-                        adjacent.addAll(p.adjacent());
+                        trees[p.x()][p.y()] = GamePanel.RED;
+                        adjacent.addAll(getAdjacent(p));
                     }
                 }
                 callback.run();
             }
             treeCounter -= allBurned.size();
-            for (Point point1 : allBurned) {
-                trees[point1.x][point1.y] = GamePanel.BLACK;
+            for (Point burnedPoint : allBurned) {
+                trees[burnedPoint.x()][burnedPoint.y()] = GamePanel.BLACK;
             }
         } else {
             if (trees[x][y] != GamePanel.BLUE) {
@@ -144,90 +146,13 @@ public class BurnTreesSimulation implements Game {
 //        return (int)Math.max(1, Math.round(treeCounter * 0.01));
     }
 
+    private Set<Point> getAdjacent(Point p) {
+        return PointUtil.findAdjacent(p, configuration, xsize, ysize);
+    }
+
     @Override
     public int[][] getBoxes() {
         return trees;
     }
 
-    private class Point {
-        private final int x;
-        private final int y;
-
-        private Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public Set<Point> adjacent() {
-            HashSet<Point> adjacent = new HashSet<>();
-
-            //Orghogonal points
-            if (x > 0) {
-                adjacent.add(new Point(x - 1, y));
-            }
-            if (x < xsize - 1) {
-                adjacent.add(new Point(x + 1, y));
-            }
-            if (y > 0) {
-                adjacent.add(new Point(x, y - 1));
-            }
-            if (y < ysize - 1) {
-                adjacent.add(new Point(x, y + 1));
-            }
-
-            //Hexagonal
-            if (Configuration.howManySurroundingPoints > 4) {
-                if (x > 0 && y > 0) {
-                    adjacent.add(new Point(x - 1, y - 1));
-                }
-                if (x < xsize - 1 && y > 0) {
-                    adjacent.add(new Point(x + 1, y - 1));
-                }
-
-
-            }
-
-            //Octogonal
-            if (Configuration.howManySurroundingPoints > 6) {
-                if (x < xsize - 1 && y < ysize - 1) {
-                    adjacent.add(new Point(x + 1, y + 1));
-                }
-                if (x > 0 && y < ysize - 1) {
-                    adjacent.add(new Point(x - 1, y + 1));
-                }
-            }
-
-
-            return adjacent;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Point point = (Point) o;
-            return x == point.x && y == point.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-
-        @Override
-        public String toString() {
-            return "Point{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    '}';
-        }
-    }
 }

@@ -6,17 +6,31 @@ import java.util.concurrent.Executors;
 public class RunSimulation {
 
     public static void startSimulation(Game game, String simulationName) {
+        startSimulation(game, simulationName, 10, new GameRunner.Speeds(100, 10), false);
+    }
+
+    public static void startSimulation(Game game,
+                                       String simulationName, boolean useLegacyColors) {
+        startSimulation(game, simulationName, 10, new GameRunner.Speeds(100, 10), useLegacyColors);
+    }
+
+    public static void startSimulation(Game game, String simulationName,
+                                       int cellSize, GameRunner.Speeds speeds) {
+        startSimulation(game, simulationName, cellSize, speeds, false);
+    }
+    public static void startSimulation(Game game, String simulationName,
+                                       int cellSize, GameRunner.Speeds speeds, boolean useLegacyColors) {
         JFrame frame = new JFrame();
         frame.setSize(300, 400);
         frame.setTitle(simulationName);
 
-        JPanel innerPanel = new GamePanel(game);
+        JPanel innerPanel = new GamePanel(game, cellSize, useLegacyColors);
         frame.add(innerPanel);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
-        Executors.newSingleThreadExecutor().submit(new GameRunner(innerPanel, game));
+        Executors.newSingleThreadExecutor().submit(new GameRunner(innerPanel, game, speeds));
     }
 
 

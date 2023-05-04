@@ -1,5 +1,9 @@
 package ua.lviv.navpil.sim;
 
+import ua.lviv.navpil.sim.points.Configuration;
+import ua.lviv.navpil.sim.points.Point;
+import ua.lviv.navpil.sim.points.PointUtil;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Random;
@@ -12,11 +16,14 @@ import java.util.Set;
 public class AvalancheSimulation implements Game {
 
     public static void main(String[] args) {
+        boolean useLegacyColors = true;
         RunSimulation.startSimulation(new AvalancheSimulation(20, 20),
-                "Avalanche simulation");
+                "Avalanche simulation", useLegacyColors);
     }
 
     private final Random random = new Random();
+    
+    private final Configuration configuration = new Configuration(4, false);
     private final int[][] sandbox;
     private final int xsize;
     private final int ysize;
@@ -31,7 +38,7 @@ public class AvalancheSimulation implements Game {
 
         for (int i = 0; i < xsize; i++) {
             for (int j = 0; j < ysize; j++) {
-                int amountOfSand = random.nextInt(4) + 1;
+                int amountOfSand = random.nextInt(3) + 1;
                 for (int k = 0; k < amountOfSand; k++) {
                     dropSand(i, j);
                 }
@@ -54,26 +61,25 @@ public class AvalancheSimulation implements Game {
         if (sandbox[x][y] >= 4) {
             callback.run();
 
-            Set<Point> allAffected = new HashSet<>();
             Point point = new Point(x, y);
 
-            sandbox[point.x][point.y] -= 4;
-            Set<Point> adjacentToPoint = point.adjacent();
+            sandbox[point.x()][point.y()] -= 4;
+            Set<Point> adjacentToPoint = getAdjacent(point);
             for (Point p : adjacentToPoint) {
-                sandbox[p.x][p.y] += 1;
+                sandbox[p.x()][p.y()] += 1;
             }
-            allAffected.addAll(adjacentToPoint);
+            Set<Point> allAffected = new HashSet<>(adjacentToPoint);
 
             while (!allAffected.isEmpty()) {
                 HashSet<Point> temp = new HashSet<>(allAffected);
                 allAffected.clear();
                 for (Point p : temp) {
-                    if (sandbox[p.x][p.y] >= 4) {
+                    if (sandbox[p.x()][p.y()] >= 4) {
 
-                        sandbox[p.x][p.y] -= 4;
-                        adjacentToPoint = p.adjacent();
+                        sandbox[p.x()][p.y()] -= 4;
+                        adjacentToPoint = getAdjacent(p);
                         for (Point adj : adjacentToPoint) {
-                            sandbox[adj.x][adj.y] += 1;
+                            sandbox[adj.x()][adj.y()] += 1;
                         }
                         allAffected.addAll(adjacentToPoint);
 
@@ -86,64 +92,13 @@ public class AvalancheSimulation implements Game {
         }
     }
 
+    private Set<Point> getAdjacent(Point p) {
+        return PointUtil.findAdjacent(p, configuration, xsize, ysize);
+    }
+
     @Override
     public int[][] getBoxes() {
         return sandbox;
     }
 
-    private class Point {
-        private final int x;
-        private final int y;
-
-        private Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public Set<Point> adjacent() {
-            HashSet<Point> adjacent = new HashSet<>();
-            if (x > 0) {
-                adjacent.add(new Point(x-1, y));
-            }
-            if (x < xsize-1) {
-                adjacent.add(new Point(x+1, y));
-            }
-            if (y > 0) {
-                adjacent.add(new Point(x, y-1));
-            }
-            if (y < ysize-1) {
-                adjacent.add(new Point(x, y+1));
-            }
-            return adjacent;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Point point = (Point) o;
-            return x == point.x && y == point.y;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
-
-        @Override
-        public String toString() {
-            return "Point{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    '}';
-        }
-    }
 }

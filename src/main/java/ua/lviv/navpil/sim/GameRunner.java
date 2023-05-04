@@ -6,10 +6,22 @@ public class GameRunner implements Runnable {
 
     private final JPanel gamePanel;
     private final Game game;
+    private final Speeds speeds;
 
-    public GameRunner(JPanel gamePanel, Game game) {
+    public static class Speeds {
+        private final int betweenSteps;
+        private final int insideSteps;
+
+        public Speeds(int betweenSteps, int insideSteps) {
+            this.betweenSteps = betweenSteps;
+            this.insideSteps = insideSteps;
+        }
+    }
+
+    public GameRunner(JPanel gamePanel, Game game, Speeds speeds) {
         this.gamePanel = gamePanel;
         this.game = game;
+        this.speeds = speeds;
     }
 
     @Override
@@ -19,7 +31,7 @@ public class GameRunner implements Runnable {
                 try {
                     // sometimes a game will initiate a redraw during some steps, like during an avalanche
                     // this may be redrawn faster, than the usual delay between steps
-                    Thread.sleep(10);
+                    Thread.sleep(speeds.insideSteps);
                 } catch (InterruptedException e) {
                     return;
                 }
@@ -29,7 +41,7 @@ public class GameRunner implements Runnable {
             try {
                 // this is a redraw between the steps
                 //noinspection BusyWait
-                Thread.sleep(100);
+                Thread.sleep(speeds.betweenSteps);
             } catch (InterruptedException e) {
                 return;
             }

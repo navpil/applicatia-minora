@@ -9,8 +9,11 @@ Usually the code which does not deserve a separate repo is added here
 `sim` package contains simulations, such as simulating a forest fire or a sand avalanche.
 Use Swing for visualization.
 
- - AvalancheSimulation
- - BurnTreesSimulation
+ - `AvalancheSimulation`
+ - `BurnTreesSimulation`
+ - `GameOfLifeSimulation`
+ - `LangtonsAntSimulation`
+ - `SimpleRandomGame`
 
 ## Anti Gambler Fallacy
 

@@ -10,7 +10,7 @@ public class SimpleRandomGame implements Game {
 
     public static void main(String[] args) {
         RunSimulation.startSimulation(new SimpleRandomGame(20, 20),
-                "Simple random game");
+                "Simple random game", true);
     }
     private final int xmax;
 
@@ -37,7 +37,7 @@ public class SimpleRandomGame implements Game {
     public void step(Runnable r) {
         for (int i = 0; i < xmax; i++) {
             for (int j = 0; j < ymax; j++) {
-                boxes[i][j] = random.nextInt(5);
+                boxes[i][j] =random.nextInt(5);
             }
         }
     }
