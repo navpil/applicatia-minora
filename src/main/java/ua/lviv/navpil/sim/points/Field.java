@@ -14,4 +14,8 @@ public interface Field {
 
     Color at(int x, int y);
 
+    default String info() {
+        return "---";
+    }
+
 }

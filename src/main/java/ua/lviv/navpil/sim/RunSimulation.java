@@ -12,7 +12,7 @@ public class RunSimulation {
     public static void startSimulation(Game game, String simulationName,
                                        int cellSize, GameRunner.Speeds speeds) {
         JFrame frame = new JFrame();
-        frame.setSize(300, 400);
+        frame.setSize(1200, 600);
         frame.setTitle(simulationName);
 
         JPanel innerPanel = new GamePanel(game, cellSize);

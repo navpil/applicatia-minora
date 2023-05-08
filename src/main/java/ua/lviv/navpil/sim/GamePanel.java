@@ -4,10 +4,6 @@ import ua.lviv.navpil.sim.points.Field;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GamePanel extends JPanel {
 
@@ -35,10 +31,13 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < boxes.width(); i++) {
             for (int j = 0; j < boxes.height(); j++) {
                 g.setColor(boxes.at(i, j));
-                g.fillOval(step + (i * step), step + (j * step), step, step);
-//                g.fillRect(step + (i * step), step + (j * step), step, step);
+//                g.fillOval(step + (i * step), step + (j * step), step, step);
+                g.fillRect(step + (i * step), step + (j * step), step, step);
             }
         }
+        g.setColor(Color.BLACK);
+        String info = boxes.info();
+        g.drawChars(info.toCharArray(), 0, info.length(), 0, ((boxes.height() + 1) * step) + 20);
     }
 
 }
