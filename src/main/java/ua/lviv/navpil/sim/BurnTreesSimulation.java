@@ -24,8 +24,8 @@ public class BurnTreesSimulation implements Game {
 
     public static void main(String[] args) {
         RunSimulation.startSimulation(
-                new BurnTreesSimulation(30, 20),
-                "Burn Trees"
+                new BurnTreesSimulation(20, 20),
+                "Burn Trees", 20, new GameRunner.Speeds(100, 10)
         );
     }
 
@@ -49,7 +49,8 @@ public class BurnTreesSimulation implements Game {
         if (ADD_LAKES) {
             putLakes((int)Math.round(xsize * ysize * 1.0 * LAKE_PERCENTAGE / 100));
         }
-        for (int i = 0; i < 50; i++) {
+        int treesNumber = (xsize * ysize) / 3;
+        for (int i = 0; i < treesNumber; i++) {
             plantTree(random.nextInt(this.xsize), random.nextInt(this.ysize));
         }
 

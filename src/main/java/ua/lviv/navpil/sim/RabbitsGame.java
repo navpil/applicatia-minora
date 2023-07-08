@@ -26,7 +26,7 @@ public class RabbitsGame implements Game {
 
     public static void main(String[] args) {
         RunSimulation.startSimulation(new RabbitsGame(300, 150),
-                "Fox/Rabbits/Wolfs/Bears", 4, new GameRunner.Speeds(10, 1));
+                "Fox/Rabbits/Wolfs/Bears", 4, new GameRunner.Speeds(50, 5));
     }
 
     private final int xmax;
@@ -39,7 +39,7 @@ public class RabbitsGame implements Game {
 
     private String info = "";
 
-    private boolean burnFire = false;
+    private boolean burnFire = true;
     private int simCount = 0;
 
     public RabbitsGame(int xmax, int ymax) {
@@ -458,14 +458,14 @@ public class RabbitsGame implements Game {
         public static final int ANIMALS_ONLY = 2;
         public static final int PREDATORS_ONLY = 3;
         public static final int GRASS_ONLY = 4;
-        int type = ANIMALS_ONLY;
+        int type = GRASS_ONLY;
 
 
         @Override
         public Color at(int x, int y) {
             if (grass[x][y] == -10) {
                 //fire
-                return Color.RED;
+                return Color.ORANGE.darker().darker();
             }
             switch (type) {
                 case GRASS_ONLY: {

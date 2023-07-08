@@ -4,6 +4,7 @@ import ua.lviv.navpil.sim.points.Field;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class GamePanel extends JPanel {
 
@@ -16,12 +17,21 @@ public class GamePanel extends JPanel {
     public static final int BLUE = 0x0000ff;
 
     public static final int RED = 0xff0000;
+    private PixelShape pixelShape;
 
+    public enum PixelShape {
+        CIRCLE, SQUARE
+    }
     private final Game game;
     private final int step;
     public GamePanel(Game game, int step) {
+        this(game, step, PixelShape.CIRCLE);
+    }
+
+    public GamePanel(Game game, int step, PixelShape pixelShape) {
         this.game = game;
         this.step = step;
+        this.pixelShape = pixelShape;
     }
 
     @Override
@@ -31,8 +41,11 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < boxes.width(); i++) {
             for (int j = 0; j < boxes.height(); j++) {
                 g.setColor(boxes.at(i, j));
-//                g.fillOval(step + (i * step), step + (j * step), step, step);
-                g.fillRect(step + (i * step), step + (j * step), step, step);
+                if (Objects.requireNonNull(pixelShape) == PixelShape.CIRCLE) {
+                    g.fillOval(step + (i * step), step + (j * step), step, step);
+                } else {
+                    g.fillRect(step + (i * step), step + (j * step), step, step);
+                }
             }
         }
         g.setColor(Color.BLACK);

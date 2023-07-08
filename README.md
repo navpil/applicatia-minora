@@ -14,6 +14,7 @@ Use Swing for visualization.
  - `GameOfLifeSimulation`
  - `LangtonsAntSimulation`
  - `SimpleRandomGame`
+ - `RabbitsGame`
 
 ## Anti Gambler Fallacy
 
