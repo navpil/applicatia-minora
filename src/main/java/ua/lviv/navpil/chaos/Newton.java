@@ -6,12 +6,15 @@ import ua.lviv.navpil.sim.points.Field;
 import ua.lviv.navpil.sim.points.LegacyColorsField;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Newton {
 
     public static void main(String[] args) {
 
-        int size = 800;
+        int size = 1600;
         int halfsize = size / 2;
 
         int[][] ints = new int[size][];
@@ -19,22 +22,27 @@ public class Newton {
             ints[i] = new int[size];
         }
 
-        double coef = 0.000002;
+        double coef = 0.005;
+//        double coef = 1;
+//        double coef = 100;
         double dx = 0;//-80;
         double dx2 = 0;//-150;
-        double dy = 0;
+        double dy = 300;
         for (int i = -halfsize; i < halfsize; i++) {
             for (int j = -halfsize; j < halfsize; j++) {
-                INum prev = new INum((i * 1.0 + dx)/ coef + dx2, (j * 1.0 + dy)/ coef);
+                INum prev = new INum((i * 1.0 + dx)* coef + dx2, (j * 1.0 + dy)* coef);
                 for (int k = 0; k < 100; k++) {
                     prev = prev.next();
                 }
+                
+                int x = i + halfsize;
+                int y = j + halfsize;
                 if (Math.abs(prev.real - 1) < 0.01) {
-                    ints[size -(i+ halfsize) - 1][j+ halfsize] = 1;
+                    ints[x][y] = 1;
                 } else if (prev.imaginary < 0) {
-                    ints[size -(i+ halfsize) - 1][j+ halfsize] = 2;
+                    ints[x][y] = 2;
                 } else {
-                    ints[size -(i+ halfsize) - 1][j+ halfsize] = 3;
+                    ints[x][y] = 3;
                 }
 //                if (Math.abs(prev.real - 1) < 0.01) {
 //                    ints[j+100][200-(i+100) - 1] = 1;
@@ -46,9 +54,37 @@ public class Newton {
             }
         }
 
+        boolean plotSolutions = true;
+        if (plotSolutions) {
+
+            List<INum> solutions = Arrays.asList(
+                    new INum(1, 0),
+                    new INum(-1.0 / 2, Math.sqrt(3.0) / 2),
+                    new INum(-1.0 / 2, -Math.sqrt(3.0) / 2));
+            for (INum solution : solutions) {
+                //if scale is 0.01, then [1,0] should be plotted on [x:100, y:0]
+                int x1 = (int)Math.round(solution.real / coef - dx) + halfsize;
+                int y1 = (int)Math.round(solution.imaginary / coef - dy) + halfsize;
+                System.out.println("X and Y calculated as " + x1 + ", " + y1);
+
+                System.out.println("Solution is correct because: " + solution.multiply(solution).multiply(solution));
+                int thickness = 3;
+                for (int x = x1-thickness ; x < x1+thickness; x++) {
+                    for (int y = y1 - thickness; y < y1 + thickness; y++) {
+
+                        if (x >= 0 && x < size && y >= 0 && y < size) {
+                            ints[x][y] = 4;
+                        }
+                    }
+                }
+            }
+        }
+
         JFrame frame = new JFrame();
         frame.setSize(1000, 1000);
         frame.setTitle("Newton");
+
+
 
         JPanel innerPanel = new GamePanel(new Game() {
             @Override
